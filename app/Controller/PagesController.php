@@ -31,19 +31,24 @@ App::uses('AppController', 'Controller');
  */
 class PagesController extends AppController {
 
-/**
- * Controller name
- *
- * @var string
- */
 	public $name = 'Pages';
-
-/**
- * This controller does not use a model
- *
- * @var array
- */
 	public $uses = array();
+
+	public $components = array(
+        'Auth' => array(
+            'loginAction' => array(
+                'controller' => 'users',
+                'action' => 'login'
+            ),
+            'authError' => 'Did you really think you are allowed to see that?'
+        )
+    );
+
+    public function beforeFilter(){
+	    //which actions are public (dont require login)?
+	    $this->Auth->allow('display');
+	}
+
 
 /**
  * Displays a view
