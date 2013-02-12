@@ -16,6 +16,16 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
+<div id="content__">
+    <div id="content_">
+
+        <!-- end right panel -->
+      <div class="row">
+        <div class="span9 content-outer">
+
+        	<div id="content">
+
+
 <h2><?php echo $name; ?></h2>
 <p class="error">
 	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
@@ -29,3 +39,24 @@ if (Configure::read('debug') > 0 ):
 	echo $this->element('exception_stack_trace');
 endif;
 ?>
+
+
+
+          	
+          </div>
+
+        </div>
+        <div class="span3 sidebar-outer">
+          <div id="sidebar">
+            <ul class="widget-list">
+              <primarysidebar>
+
+
+
+              </primarysidebar>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -12,44 +12,53 @@
 							  <div id="dataset-search-ext"></div>
 							</form>
 
-							<h4><?php echo count(@$results); ?> datasets found</h4>
+							<h4><?php echo $resultcount; ?> datasets found</h4>
 	                    	
-	                    	<?php if(count(@$results)){
-	                    	foreach (@$results as $result) { ?>
+	                    	<?php if($resultcount){
+	                    	foreach (@$results['hits']['hits'] as $result) { ?>
 	                    	<ul class="datasets">
 							    <li>
 							        <div class="header">
 								      <span class="title">
-								        <a href="<?php if($result['Dataset']['url']){ echo $result['Dataset']['url']; }else{ echo $result['Dataset']['ckanSiteUrl'] .'/dataset/'. $result['Dataset']['ckanId']; } ?>">
-								        	<?php echo $result['Dataset']['title']; ?>
+								        <a href="<?php if($result['_source']['url']){ echo $result['_source']['url']; }else{ echo $result['_source']['ckanSiteUrl'] .'/dataset/'. $result['_source']['ckanId']; } ?>">
+								        	<?php echo $result['_source']['title']; ?>
 								        </a>
 								      </span>
 								      <div class="search_meta">
 								        <ul class="openness">
-								        	<?php if(@$result['Dataset']['isopen'] == "YES"){ ?>
+								        	<?php if(@$result['_source']['isopen'] == "YES"){ ?>
 								            <li>
 								              <a title="This dataset satisfies the Open Definition." href="http://opendefinition.org/okd/">
 								                  <img alt="[Open Data]" src="http://assets.okfn.org/images/ok_buttons/od_80x15_blue.png">
 								              </a>
 								            </li>
 								            <?php } ?>
+								        
 								        </ul>
 								      </div>
 									</div>
+
 									<div class="source">
-										<?php echo $result['Dataset']['ckanSiteUrl']; ?>
+										<?php echo $result['_source']['ckanSiteUrl']; ?>
 										<?php
-											$resources = count($result['Dataset']['resources']);
+											$resources = count($result['_source']['resources']);
 											if($resources){
-												echo ' &raquo; <a href="'.$result['Dataset']['ckanSiteUrl'] .'/dataset/'. $result['Dataset']['ckanId'].'">'.$resources .' files</a>';
+												echo ' • <a href="'.$result['_source']['ckanSiteUrl'] .'/dataset/'. $result['_source']['ckanId'].'">'.$resources .' files</a>';
 											}
 										?>
+										 • 
+										 <a href="/datasets/show/<?php echo $result['_source']['_id']; ?>">more</a> • <a href="/datasets/show/<?php echo $result['_source']['_id']; ?>#disqus_thread">comments</a>
+
+									</div>
+
+									<div class="lastaccessed">
+										Last accessed <?php echo date('D, d M Y',$result['_source']['lastCrawled']); ?>
 									</div>
 									<div class="extract">
-							        	<?php echo $this->String->shorten($result['Dataset']['notes'], 200); ?>
+							        	<?php echo $this->String->shorten($result['_source']['notes'], 200); ?>
 
 							        	<?php
-							        		foreach ($result['Dataset']['tags'] as $tag) {
+							        		foreach ($result['_source']['tags'] as $tag) {
 							        			
 							        			if(!@in_array($tag, @$tags)){
 							        				$tags[] = $tag;
@@ -62,7 +71,12 @@
 
 							    </li>
 							</ul>
-							<?php }}  ?>
+							<?php } ?>
+								
+								<br/>
+								<?php echo @$pagination; ?>
+
+						    <?php }  ?>
 						</div>
 
                     </div>
@@ -71,6 +85,9 @@
                         <ul class="widget-list">
                           <primarysidebar>
 
+                          		<hr style="width:90%;margin-top:3px" />
+								<a href="/datasets/add" class="btn btn-large btn-success" style="color:white !important;margin-left:28px">Add a Dataset</a>
+                          		<hr style="width:90%" />
                           	
                           		<?php 
                           			if(@is_array($tags)){
@@ -78,10 +95,12 @@
                           				<h3>Tags</h3>
                           				<div id="tagcloud">';
                           				foreach ($tags as $tag) {
-                          					echo '<a href="./?term='.$tag.'">'.$tag.'</a>, ';
+                          					echo '<a href="/datasets/?tag='.$tag.'">'.$tag.'</a>, ';
                           				}
                           				echo '
                           				</div>';
+                          			}else{
+                          				echo '<h3>Stats</h3><br /><a href="/datasets/stats">'.Cache::read('countDatasets', 'long').' Datasets</a> are searchable.';
                           			}
                           		?>
                           	
@@ -94,3 +113,16 @@
                   </div>
                 </div>
             </div>
+
+                <script type="text/javascript">
+			    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+			    var disqus_shortname = 'livingarchiveeu'; // required: replace example with your forum shortname
+
+			    /* * * DON'T EDIT BELOW THIS LINE * * */
+			    (function () {
+			        var s = document.createElement('script'); s.async = true;
+			        s.type = 'text/javascript';
+			        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+			        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+			    }());
+			    </script>

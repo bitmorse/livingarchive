@@ -1,12 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" class="no-js" lang="en">
 <head>
-    <title>LivingArchive - A search engine for Open Data</title>
+    <title>Living Archive - A search engine for Open Data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="Description" content="" />
     <meta name="keywords" content="" />
+    <meta name="google-site-verification" content="3nyIItUap75cHbLEC-xjgyQFY8E2P5CCslM-vV25sK4" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <link href="http://localhost:8888/bm/livingarchive/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/js/jqcloud.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
 </head>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="/bm/livingarchive/js/d3.layout.cloud.js"></script>
@@ -19,13 +24,17 @@
 		    <div class="fr">
 		      
 		      <span class="searchbg">
+
+            <form action="/datasets" method="get">
+              <input type="input" name="term" class="searchinput" placeholder="search" />
+            </form>
 		      
 
 		      </span>
 
 		      <div class="account">
-		        <span>
-		          <a href="/users/login">Login</a>
+		        <span style="visibility:hidden">
+		          <a href="/users/login">Login</a> • 
 		          <a href="/users/register">Register</a>
 		        </span>
 		      </div>
@@ -34,9 +43,9 @@
 		<div id="menu">
 		    <ul>
 		        <li><a class="active" href="/">Home</a> |</li>
-		        <li><a href="/dataset?q=">Datasets</a> |</li>
-		        <li><a href="/dataset?q=">Visualisations</a> |</li>
-		        <li><a href="/dataset?q=">Feedback</a></li>
+		        <li><a href="/datasets">Datasets</a> |</li>
+		        <li><a href="/visualisations">Visualisations</a> |</li>
+		        <li><a href="javascript:UserVoice.showPopupWidget();">Feedback</a></li>
 
 
 		    </ul>
@@ -50,9 +59,12 @@
         <div class="lsize clearfix">
 
 
-			<?php echo $this->Session->flash(); ?>
+           
+            <?php echo $this->Session->flash(); ?>
+         
+      			
 
-			<?php echo $this->fetch('content'); ?>
+    			<?php echo $this->fetch('content'); ?>
 
 
             <!-- end content -->
@@ -67,36 +79,14 @@
             </div>
             <ul class="footer-nav">
               <li>
-                <a href="/user">
-                  Users
-                </a> |
-              </li>
-              <li>
-                <a href="/tag">
-                  Tags
-                </a> |
-              </li>
-              <li>
-                <a href="/stats">
+                <a href="/datasets/stats">
                   Statistics
-                </a> |
-              </li>
-              <li>
-                <a href="/revision">
-                  Revisions
-                </a> |
-              </li>
-              <li>
-                <a href="/ckan-admin">
-                  Site Admin
-                </a> |
+                </a>
               </li>
             </ul>
           <ul class="footer-nav">
-              <li><a href="#">Home</a> |</li>
-                <li><a href="#">About Us</a> |</li>
-                <li><a href="#">Datasets</a> |</li>
-                <li><a href="#">Contact Us</a> | </li>
+              <li><a href="/">Home</a> |</li>
+                <li><a href="/datasets">Datasets</a> |</li>
             </ul>
         </div>
     </div>
@@ -116,7 +106,15 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/TeS8s8EDWJ05MJCRlbZfqw.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
 </body>
 </html>

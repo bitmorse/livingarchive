@@ -36,4 +36,31 @@ class AppController extends Controller {
 	var $components = array('Session', 'Cookie', 'Auth', 'CurlHTTP');
 	var $helpers = array('String');
 
+
+	function uploadFile($folder, $file) {
+		
+			// list of permitted file types, this is only images but documents can be added
+			$permitted = array('image/gif' => '.gif','image/jpeg' => '.jpg','image/png' => '.png');
+		
+			// assume filetype is false
+			$typeOK = false;
+
+			// check filetype is ok
+			foreach($permitted as $type => $ending) {
+				if($type == $file['type']) {
+					$typeOK = true;
+					$ending = $ending;
+					break;
+				}
+			}
+			
+			// if file type ok upload the file
+			if($typeOK) {
+				move_uploaded_file($file['tmp_name'], WWW_ROOT.$folder.md5($file['name'].time()).$ending);
+				return md5($file['name'].time()).$ending;
+			}else{
+				return false;
+			}
+	}
+
 }

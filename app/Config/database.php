@@ -81,14 +81,16 @@ class DATABASE_CONFIG {
 		//'encoding' => 'utf8',
 	);
 
-	 public $mongodb_dev = array(
+public $mongodb_dev = array(
         'datasource' => 'Mongodb.MongodbSource',
         'database' => 'livingarchive',
         'host' => 'localhost',
-        'port' => 27017
+        'port' => 27017,
+        'persistent' => false
         /*,
         'login' => 'livingarchive', 
         'password' => 'livingarchive'
         */
     );  
+
 }
