@@ -9,18 +9,35 @@
 
             <h2><?php echo $dataset['title'] ?> <?php if($dataset['url']){echo '<a href="'.$dataset['url'].'"><img src="/img/link.png" alt="Link" /></a>';} ?></h2>
             <h4>
-              <?php if($dataset['ckanSiteUrl']): ?>
+              <?php if(@$dataset['ckanSiteUrl']): ?>
               <a href="<?php echo $dataset['ckanSiteUrl']; ?>/dataset/<?php echo $dataset['ckanId']; ?>">
                 catalogued by <?php echo $dataset['ckanSiteUrl']; ?>
                 <?php $files = count($dataset['resources']); if($files){ echo ' • '.$files.' files'; } ?>
               </a>
-              <?php endif; ?>
+            <?php else: ?>
+
+              catalogued by livingarchive.eu
+
+            <?php endif; ?>
+
             </h4>
             <br />
             <p>
-              <?php if($dataset['notes_rendered']){ echo $dataset['notes_rendered']; }else{ echo $dataset['notes']; }?>
+              <?php if(@$dataset['notes_rendered']){ echo @$dataset['notes_rendered']; }else{ echo $dataset['notes']; }?>
             </p>
 
+            <?php 
+
+              if(@$dataset['dataset_url']){ 
+
+                echo '<a href="'.$dataset['dataset_url'].'">Dataset Download</a>';
+
+              } 
+
+            ?>
+
+            <br />
+            <br />
             <br />
           	
             <div id="disqus_thread"></div>
@@ -56,7 +73,9 @@
 
 
                 <b>Last accessed</b><br />
-                <?php echo date('m.d.Y H:i', $dataset['lastCrawled']); ?>
+                <?php echo @date('m.d.Y H:i', $dataset['lastCrawled']); ?>
+
+                
                 
                 <br /><br />
                 
@@ -68,6 +87,16 @@
                 <?php } ?>
                 </ul>
                 <?php endif; ?> 
+
+
+                <?php if(@$dataset['creator_ip'] == $_SERVER['REMOTE_ADDR']){ ?>
+
+                  <br />
+                  <br />
+                  <br />
+                  <a href="/datasets/delete/<?php echo $dataset['_id']; ?>" class="btn btn-large btn-danger" style="color:white !important;">Delete Dataset</a>
+
+                <?php } ?>
 
 
               </primarysidebar>

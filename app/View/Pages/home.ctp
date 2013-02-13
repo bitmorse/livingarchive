@@ -37,11 +37,25 @@
               <a href="/datasets/stats"><span id="datasetcount"><?php echo Cache::read('countDatasets', 'long'); ?> and counting</span></a>
             </p>
           </div>
+
           <div class="news-ltrmain">
+            <div class="news-ins" style="padding-top:5px">
+              <a href="/datasets/?tag=qlectives">
+                <img src="/img/qlogo.png" alt="QLectives Datasets" />
+                Featured Datasets from QLectives
+              </a>
+              <br />
+
+            </div>
+          </div>
+
+          <div style="margin-top: 15px" class="news-ltrmain">
             <div class="news-ins">
                <iframe src="http://player.vimeo.com/video/29480781?title=0&amp;byline=0&amp;portrait=0&amp;color=c9ff23" width="207" height="120" frameborder="0"></iframe>
-    </div>
-    </div>
+            </div>
+          </div>
+
+
     </div>
     <!-- end right panel -->
     <!-- three tab -->

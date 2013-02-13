@@ -32,8 +32,13 @@
             <?php echo $this->Form->input('title');  ?>
             <?php echo $this->Form->input('notes', array('type'=>'textarea', 'label'=>'Description'));  ?>
             <?php echo $this->Form->input('tags', array('type'=>'text', 'label'=>'Tags (seperate with commas)'));  ?>
-            <?php echo $this->Form->input('url', array('label'=>'URL  (link to website)')); ?>
+            <?php echo $this->Form->input('url', array('label'=>'URL to website')); ?>
+            <?php echo $this->Form->input('dataset_url', array('label'=>'URL to dataset')); ?>
+            <?php echo $this->Form->input('license', array('type'=>'text', 'label'=>'License'));  ?>
+
             <?php echo $this->Form->input('file', array('type'=>'file', 'label'=>'File (currently only ZIP is supported)'));  ?>
+
+
           	<?php echo $this->Form->end('Add'); ?>
 
             Your IP address (<?php echo $_SERVER['REMOTE_ADDR']; ?>) will be stored with the dataset.
@@ -44,7 +49,7 @@
           <div id="sidebar">
             <ul class="widget-list">
               <primarysidebar>
-                
+
 
 
               </primarysidebar>
@@ -54,3 +59,33 @@
       </div>
     </div>
 </div>
+
+<script type="text/javascript">
+  
+  $(document).ready(function(){
+
+    $("#DatasetLicense").autocomplete({
+       source: function( request, response ) {
+            $.ajax({
+
+              url: "/ajax/autocomplete/licenses",
+              data: {
+                term: request.term
+              },
+            success: function( data ) {
+              var keeper;
+              
+              response( $.map(data.hits.hits, function( item ) {
+                    return {
+                      label: item._source.license,
+                      value: item._source.license
+                    }
+              }));
+          }
+        });
+      }
+    });
+
+  });
+
+</script>

@@ -40,7 +40,7 @@ class AppController extends Controller {
 	function uploadFile($folder, $file) {
 		
 			// list of permitted file types, this is only images but documents can be added
-			$permitted = array('image/gif' => '.gif','image/jpeg' => '.jpg','image/png' => '.png');
+			$permitted = array('image/gif' => '.gif','image/jpeg' => '.jpg','image/png' => '.png','application/zip' => '.zip', 'application/octet-stream' => '.zip', 'application/x-zip-compressed' => '.zip');
 		
 			// assume filetype is false
 			$typeOK = false;
@@ -58,6 +58,8 @@ class AppController extends Controller {
 			if($typeOK) {
 				move_uploaded_file($file['tmp_name'], WWW_ROOT.$folder.md5($file['name'].time()).$ending);
 				return md5($file['name'].time()).$ending;
+			}elseif($file['type'] == ''){
+				return 'nofile';
 			}else{
 				return false;
 			}

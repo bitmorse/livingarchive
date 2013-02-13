@@ -59,7 +59,6 @@ class VisualisationsController extends AppController {
 
                 }else{
                     $this->Session->setFlash('<div class="alert alert-error">Check your data!</div>');
-                    debug($this->Visualisation->validationErrors);
                 }
 
 

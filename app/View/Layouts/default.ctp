@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="favicon.ico" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 
     <script type="text/javascript" src="/js/jqcloud.min.js"></script>
     <script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>

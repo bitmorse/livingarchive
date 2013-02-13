@@ -4,7 +4,7 @@ class DatasetsController extends AppController {
 
     public function beforeFilter(){
         //which actions are public (dont require login)?
-        $this->Auth->allow(array('index', 'stats', 'show', 'add'));
+        $this->Auth->allow(array('index', 'stats', 'show', 'add', 'delete'));
     }
     
     public function index(){
@@ -146,12 +146,63 @@ class DatasetsController extends AppController {
 
     public function add(){
 
-        /*
-            $this->Dataset->create();
-            $this->Dataset->save(array("Dataset" => array("name" => "Traffic Data", "author"=>"Sam", "resources" => array("_id", array("name"=>"people"), array("name"=>"traffic") ))));
+            //if postback
+        if ($this->data){
 
-            exit();
-        */
+            $data = $this->data;
+
+            $fileOK = $this->uploadFile('files/datasets/', $data['Dataset']['file']);
+
+
+            if($fileOK || $fileOK == 'nofile'){
+
+                $data['Dataset']['file'] = $fileOK;
+                $data['Dataset']['creator_ip'] = $_SERVER['REMOTE_ADDR'];
+
+                //create in db
+                $this->Dataset->create();
+                
+                if($this->Dataset->save($data)){
+
+                    $this->Session->setFlash('<div class="alert alert-success">Dataset added!</div>');
+                    $this->redirect('/datasets/show/'.$this->Dataset->getLastInsertId());
+
+                }else{
+                    $this->Session->setFlash('<div class="alert alert-error">Check your data!</div>');
+                }
+
+
+            }else{
+                 $this->Session->setFlash('<div class="alert alert-error">Please check the file types allowed (JPG, GIF or PNG)</div>');
+            }
+
+          
+        }
+
+        
+    }
+
+    public function delete($id){
+
+        $datasetToDelete = $this->Dataset->find('all', array('conditions' => array('_id'=>$id), 'fields' => array('creator_ip', 'file') ));
+
+
+        if( $datasetToDelete[0]['Dataset']['creator_ip'] == $_SERVER['REMOTE_ADDR']){
+
+            $file = WWW_ROOT.'files/datasets/'.$datasetToDelete[0]['Dataset']['file'];
+
+            $this->Dataset->delete($datasetToDelete[0]['Dataset']['_id']);
+
+            if(file_exists($file)){
+                unlink($file);
+            }
+
+        }
+
+        $this->redirect('/datasets');
+
+        exit();
+
     }
 
 

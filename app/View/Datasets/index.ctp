@@ -39,11 +39,11 @@
 									</div>
 
 									<div class="source">
-										<?php echo $result['_source']['ckanSiteUrl']; ?>
+										<?php echo @$result['_source']['ckanSiteUrl']; ?>
 										<?php
-											$resources = count($result['_source']['resources']);
+											$resources = count(@$result['_source']['resources']);
 											if($resources){
-												echo ' • <a href="'.$result['_source']['ckanSiteUrl'] .'/dataset/'. $result['_source']['ckanId'].'">'.$resources .' files</a>';
+												echo ' • <a href="'.@$result['_source']['ckanSiteUrl'] .'/dataset/'. $result['_source']['ckanId'].'">'.$resources .' files</a>';
 											}
 										?>
 										 • 
@@ -52,19 +52,21 @@
 									</div>
 
 									<div class="lastaccessed">
-										Last accessed <?php echo date('D, d M Y',$result['_source']['lastCrawled']); ?>
+										<?php if(@$result['_source']['lastCrawled']){ echo 'Last accessed '.date('D, d M Y',@$result['_source']['lastCrawled']); }else{ echo 'Added '. substr($result['_source']['created'], 0, 10);} ?>
 									</div>
 									<div class="extract">
 							        	<?php echo $this->String->shorten($result['_source']['notes'], 200); ?>
 
 							        	<?php
-							        		foreach ($result['_source']['tags'] as $tag) {
-							        			
-							        			if(!@in_array($tag, @$tags)){
-							        				$tags[] = $tag;
-							        			}
+							        		if(is_array($result['_source']['tags'])){
+								        		foreach ($result['_source']['tags'] as $tag) {
+								        			
+								        			if(!@in_array($tag, @$tags)){
+								        				$tags[] = $tag;
+								        			}
 
-							        		} 
+								        		} 
+								        	}
 							        	?>
 										
 									</div>
