@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" class="no-js" lang="en">
 <head>
-    <title>Living Archive - A search engine for Open Data</title>
+    <title>Living Archive - <?php if($pagetitle){ echo $pagetitle; }else{ ?>A search engine for Open Data <?php } ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="Description" content="" />
-    <meta name="keywords" content="" />
+    <meta name="Description" content="<?php echo $pagedesc; ?>" />
+    <meta name="keywords" content="<?php echo $pagetags; ?>" />
     <meta name="google-site-verification" content="3nyIItUap75cHbLEC-xjgyQFY8E2P5CCslM-vV25sK4" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
@@ -14,8 +14,9 @@
     <script type="text/javascript" src="/js/jqcloud.min.js"></script>
     <script type="text/javascript" src="/js/jquery.fancybox.pack.js"></script>
 </head>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="/bm/livingarchive/js/d3.layout.cloud.js"></script>
+-->
 <body class="index home no-sidebar">
 <div id="wrapper">
   <div class="lsize relative">

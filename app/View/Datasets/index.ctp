@@ -17,10 +17,18 @@
 	                    	<?php if($resultcount){
 	                    	foreach (@$results['hits']['hits'] as $result) { ?>
 	                    	<ul class="datasets">
-							    <li>
+							    <li class="result" rel="<?php echo $result['_source']['_id']; ?>">
 							        <div class="header">
 								      <span class="title">
-								        <a href="<?php if($result['_source']['url']){ echo $result['_source']['url']; }else{ echo $result['_source']['ckanSiteUrl'] .'/dataset/'. $result['_source']['ckanId']; } ?>">
+								        <a href="<?php 
+								        	if($result['_source']['url'] && $result['_source']['dataset_url']){
+								        		echo  '/datasets/show/'.$result['_source']['_id'];
+								        	}elseif($result['_source']['url']){
+								        		echo $result['_source']['url'];
+								        	}else{
+								        		echo $result['_source']['ckanSiteUrl'] .'/dataset/'. $result['_source']['ckanId']; 
+								        	} ?>">
+
 								        	<?php echo $result['_source']['title']; ?>
 								        </a>
 								      </span>
@@ -47,7 +55,7 @@
 											}
 										?>
 										 • 
-										 <a href="/datasets/show/<?php echo $result['_source']['_id']; ?>">more</a> • <a href="/datasets/show/<?php echo $result['_source']['_id']; ?>#disqus_thread">comments</a>
+										 <a class="moremeta" href="/datasets/show/<?php echo $result['_source']['_id']; ?>">more</a> • <a href="/datasets/show/<?php echo $result['_source']['_id']; ?>#disqus_thread">comments</a>
 
 									</div>
 
@@ -116,15 +124,45 @@
                 </div>
             </div>
 
-                <script type="text/javascript">
-			    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-			    var disqus_shortname = 'livingarchiveeu'; // required: replace example with your forum shortname
+            <script type="text/javascript">
+		    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+		    var disqus_shortname = 'livingarchiveeu'; // required: replace example with your forum shortname
 
-			    /* * * DON'T EDIT BELOW THIS LINE * * */
-			    (function () {
-			        var s = document.createElement('script'); s.async = true;
-			        s.type = 'text/javascript';
-			        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-			        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-			    }());
-			    </script>
+		    /* * * DON'T EDIT BELOW THIS LINE * * */
+		    (function () {
+		        var s = document.createElement('script'); s.async = true;
+		        s.type = 'text/javascript';
+		        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		    }());
+
+		    $(document).ready(function() {
+		    
+			    $(".result a").click(function(){ 
+
+			    		hrefa = $(this).closest('.result').children('a').context.href;
+			    		dsid = $(this).closest('.result').attr('rel');
+			    		
+
+
+					$.ajax({
+					    async: false,
+					    type: "POST",
+					    url: "/ajax/logQueryResultClick", //dynamic url to logging action
+					    data: {
+					            dsid: dsid, //random data
+					            hrefa: hrefa,
+					            resc: '<?php echo $resultcount; ?>'
+					    },
+					    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					    cache: false
+					 });
+					 return true; 
+				});
+
+			});
+
+
+
+
+		    </script>

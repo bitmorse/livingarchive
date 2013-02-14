@@ -75,7 +75,7 @@
           <div>
 <!-- Snippet disqus-recent.html start -->
 <div class="ckan-recent-comments">
-  <div id="recentcomments" class="dsq-widget">
+  <div id="recentcomments" class="dsq-widget" style="width: 360px">
 	<h2 class="dsq-widget-title">Recent	Comments</h2>
   <br />
 	<script type="text/javascript" src="http://livingarchiveeu.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=150"></script>

@@ -37,6 +37,12 @@ class AppController extends Controller {
 	var $helpers = array('String');
 
 
+	function beforeFilter(){
+		$this->Session->start();
+		$this->Session->id(session_id());
+	}
+
+
 	function uploadFile($folder, $file) {
 		
 			// list of permitted file types, this is only images but documents can be added

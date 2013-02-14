@@ -9,6 +9,12 @@ class DatasetsController extends AppController {
     
     public function index(){
 
+        //set this var for the clickstream miner
+        Cache::write($_SERVER['REMOTE_ADDR'], true);
+
+
+        $this->set('pagetitle', 'Search Results');
+
         if(@$_GET['from'] == ''){
             $from = 0;
         }else{
@@ -45,6 +51,24 @@ class DatasetsController extends AppController {
         }
 
 
+        //log the query term
+        if($queryterm){
+            App::import('model', 'SearchQuery');
+            
+            $SearchQuery = new SearchQuery();
+            $SearchQuery->create();
+
+            //update record with the clicked result id
+            $data['SearchQuery']['referer'] = $_SERVER['HTTP_REFERER'];
+            $data['SearchQuery']['ip'] = $_SERVER['REMOTE_ADDR'];
+            $data['SearchQuery']['session_id'] = $this->Session->id(session_id());
+            $data['SearchQuery']['entryterm'] = $queryterm;
+            $data['SearchQuery']['entryresults'] = $results;
+
+            $SearchQuery->save($data);
+
+        }
+
         //pagination
         if(@$results['hits']['total'] > 10){
             
@@ -79,6 +103,7 @@ class DatasetsController extends AppController {
 
     public function show($datasetId){
 
+
             //get dataset
             $params = array(
                 'conditions' => array('_id' => $datasetId),
@@ -107,12 +132,31 @@ class DatasetsController extends AppController {
             $this->set('mlt', $mlt);
 
 
+            if(is_array($dataset['tags'])){
+                foreach ($dataset['tags'] as $tag) {
+                    $tags .= $tag . ' ';
+                }
+            }else{
+                $tags = $dataset['tags'];
+            }
+
+            $this->set('pagetags', $tags);
+            $this->set('pagetitle', $dataset['title']);
+            $this->set('pagedesc', substr($dataset['notes'], 0, 200).'...');
+
+
+
+
     }
 
 
 
 
     public function stats(){
+
+        $this->set('pagetitle', 'Statistics');
+
+
         //count datasets
         $countDatasets = $this->Dataset->find('count', array('fields' => 'lastCrawled', 'conditions' => array('lastCrawled' => array('$ne' => 'never')  )));
         Cache::write('countDatasets', $countDatasets, 'long');
@@ -145,6 +189,9 @@ class DatasetsController extends AppController {
 
 
     public function add(){
+
+        $this->set('pagetitle', 'Add a dataset');
+
 
             //if postback
         if ($this->data){

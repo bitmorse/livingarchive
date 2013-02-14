@@ -12,6 +12,9 @@ class VisualisationsController extends AppController {
         $visualisations = $this->Visualisation->find('all');
 
         $this->set('visualisations', $visualisations);
+        $this->set('pagetitle', 'Visualisations');
+        $this->set('pagedesc', 'A collection of visualisations from all over the web. Mostly based on open data and technologies. Add your own to promote your ideas!');
+
 	}
 
 
@@ -21,6 +24,11 @@ class VisualisationsController extends AppController {
             $visualisation = $visualisation[0]['Visualisation'];
             $visualisation['created'] = explode(' ', $visualisation['created']);
             $visualisation['created'] = date('d.m.Y H:i:s', $visualisation['created'][1]);
+
+
+            $this->set('pagetitle', $visualisation['title']);
+            $this->set('pagedesc', $visualisation['description']);
+
 
             if($visualisation){
                 $this->set('visualisation', $visualisation);
@@ -36,6 +44,9 @@ class VisualisationsController extends AppController {
 
 
 	public function add(){
+        
+        $this->set('pagetitle', 'Add a visualisation');
+
 
 		//if postback
         if ($this->data){
